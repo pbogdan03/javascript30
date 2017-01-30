@@ -182,6 +182,29 @@
     </li>
 
 <script>
+const timeNodes = [...document.querySelectorAll('[data-time]')];
+
+const seconds = timeNodes.reduce((total, el) => {
+  const timeEl = document.createElement('span');
+  timeEl.style.float = 'right';
+  timeEl.innerHTML = el.dataset.time;
+  el.append(timeEl);
+  const [mins, secs] = el.dataset.time.split(':');
+  return total += parseFloat(mins) * 60 + parseFloat(secs);
+}, 0);
+
+let secondsLeft = seconds;
+const hours = Math.floor(secondsLeft / 3600);
+secondsLeft = secondsLeft % 3600;
+
+const mins = Math.floor(secondsLeft / 60);
+secondsLeft = secondsLeft % 60;
+
+const totalTimeEl = document.createElement('p');
+totalTimeEl.style.textAlign = 'right';
+totalTimeEl.innerHTML = `Total: ${hours}:${mins}:${secondsLeft}`;
+
+document.body.insertBefore(totalTimeEl, document.body.firstChild);
 </script>
 </body>
 </html>
