@@ -43,6 +43,7 @@
   slider.addEventListener('mousedown', (e) => {
     isDown = true;
     slider.classList.add('active');
+    // capture variables on mouse down to use them in mouse move
     startX = e.pageX - slider.offsetLeft;
     scrollLeft = slider.scrollLeft;
   });
@@ -58,13 +59,15 @@
   });
 
   slider.addEventListener('mousemove', (e) => {
-    if (!isDown) return;  // stop the fn from running
+    if(!isDown) return;
     e.preventDefault();
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 3;
+    // we have to use the captured value that doesn't update
+    // so we can't do this:
+    // slider.scrollLeft -= walk;
     slider.scrollLeft = scrollLeft - walk;
   });
-
 </script>
 
   </body>

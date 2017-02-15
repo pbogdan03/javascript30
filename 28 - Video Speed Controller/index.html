@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="https://www.dropbox.com/s/nf6jfkwck1glsyo/12%20-%20flex-wrapping-and-columns.mp4?dl=1" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+  const video = document.querySelector('video');
+  const speed = document.querySelector('.speed');
+  const speedBar = document.querySelector('.speed-bar');
+  let isDown = false;
+
+  function updateValue(e) {
+    const y = e.pageY - this.offsetTop;
+    const percent = y / this.offsetHeight;
+    const min = 0.4;
+    const max = 4;
+    const height = `${Math.round(percent * 100)}%`;
+
+    speedBar.style.height = height;
+    const val = (max-min) * percent + min;
+    speedBar.textContent = `${val.toFixed(1)}x`;
+
+    video.playbackRate = val.toFixed(1);
+  }
+
+  speed.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    isDown = true;
+    updateValue.call(this, e);
+  });
+  speedBar.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+  speedBar.addEventListener('mouseleave', () => {
+
+  });
+  speed.addEventListener('mousemove', function(e) {
+    e.preventDefault();
+    if(isDown) {
+      updateValue.call(this, e);
+    }
+  });
+</script>
+</body>
+</html>
